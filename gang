@@ -1,0 +1,70 @@
+const Discord = require('Discord.js')
+const item = {
+    name: 'Adidas Trx',
+    cop: 'Resellable Level',
+    site: 'ADDICT MIAMI ',
+    inventory: 'https://www.addictmiami.com/products/adidas-trx-vintage-white-grey-fy3651.js',
+    retail: 'Retail',
+    thumbnail: 'https://cdn.shopify.com/s/files/1/0186/2792/products/FY3651_1_1800x1800.png?v=1611787001',
+    image: 'https://cdn.shopify.com/s/files/1/0186/2792/products/FY3651_2_360x.png?v=1611786997',
+
+    sizes: [{
+        name: 'US 8',
+        id: 4781962625113
+
+    }, {
+        name: 'US 8.5',
+        id: 4781962625113
+    }]
+}
+
+async function sendWebhook(product) {
+
+
+
+
+    let links = []
+    for (let i = 0; i < product.sizes.length; i++) {
+        // this loops through the product sizes array 
+        /*
+            [{
+            name: 'US 8',
+            id: 4781962625113
+
+        }, {
+            name: 'US 8.5',
+            id: 4781962625113
+        }]
+
+            */
+        let currentSize = product.sizes[i]
+            //currentSize is equal to either { name: 'US 8', id :4781962625113 } or {name: 'US 8.5',id: 4781962625113 }
+        let variant = currentSize.id
+        let url = `https://www.addictmiami.com/collections/men/products/adidas-trx-vintage-white-grey-fy3651?varient=${variant}`
+        links.push(url)
+    }
+    console.log(links.join('                 '))
+
+    const embed = new Discord.MessageEmbed()
+        .setAuthor('Aldo Bot')
+        .setTitle(product.name)
+        .setDescription(`Addict Miami has restocked ${ product.name} `)
+        .addField(product.retail, '$220 USD')
+        .addField('\u200b', '\u200b')
+        .addField('Inventory Checker', product.inventory)
+        .addField('\u200b', '\u200b')
+        .addField(product.cop, 'Average')
+        .addField('\u200b', '\u200b')
+        .addField('Links', links.join('\n '))
+        .setImage(product.image)
+        .setTimestamp()
+        .setColor('#0CF574')
+        .setFooter('Brought to you by Aldo Figallo', 'https://banner2.cleanpng.com/20180328/tse/kisspng-money-bag-computer-icons-coin-tax-market-5abbb0febf56f2.7630683415222499827837.jpg')
+
+    const webhook = new Discord.WebhookClient('805457471820660738', 'zZlzs7e8KlqqgMWiPEIWpYrwN0698RMVDiUsnnbLdxxjl_8oCeJe_VrWgU7PfYdmAC8u')
+    webhook.send(embed)
+
+}
+
+
+sendWebhook(item)
